@@ -1,14 +1,10 @@
-from conexiones import ConexionCliente
-from conversacion import Conversacion
-from comandos import procesar_comando
 from usuario import Usuario
+from interaccionchat import InteraccionChat
 
-def iniciar_cliente(usuario_local):
+async def iniciar_cliente():
+    usuario_local = Usuario("NombreUsuario", "127.0.0.1")
     host = '127.0.0.1'
     puerto = 12345
 
-    conexion = ConexionCliente(host, puerto)
-    if not conexion.conectar():
-        return
-
-    
+    chat = InteraccionChat(usuario_local, host, puerto)
+    await chat.iniciar()
