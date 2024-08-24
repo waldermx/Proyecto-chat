@@ -12,6 +12,7 @@ class InteraccionChat:
         if not await self.conexion.conectar():
             return
 
+        #Agrega a la lista mensajes todos los que llegan
         asyncio.create_task(self.conexion.recibir_mensajes(self.chat))
         await self.ciclo_principal()
 
@@ -19,6 +20,7 @@ class InteraccionChat:
         while True:
             entrada = await self.leer_entrada_usuario()
             if entrada.startswith("/"):
+                #Patrón strategy
                 comando = procesar_comando(entrada, self.chat)
                 comando.ejecutar()
             else:
