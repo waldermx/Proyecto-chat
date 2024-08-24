@@ -1,25 +1,11 @@
 import socket
 import threading
-import time
+from cifrado import descifrar_mensaje, cifrar_mensaje
 from comandos import procesar_comando
 from conversacion import Conversacion
 
-def cifrar_mensaje(mensaje):
-    return mensaje[::-1]
 
-def descifrar_mensaje(mensaje):
-    return mensaje[::-1]
 
-def recibir_mensajes(cliente_socket, chat):
-    while True:
-        try:
-            mensaje_cifrado = cliente_socket.recv(1024).decode('utf-8')
-            if mensaje_cifrado:
-                mensaje = descifrar_mensaje(mensaje_cifrado)
-                print("\n" + mensaje)
-        except Exception as e:
-            print(f"Error al recibir mensaje: {e}")
-            break
 
 def iniciar_cliente(usuario_local):
     host = '127.0.0.1'
@@ -48,3 +34,14 @@ def iniciar_cliente(usuario_local):
                 cliente_socket.send(mensaje_cifrado.encode('utf-8'))
         except Exception as e:
             print(f"Error al enviar mensaje: {e}")
+
+def recibir_mensajes(cliente_socket, chat):
+    while True:
+        try:
+            mensaje_cifrado = cliente_socket.recv(1024).decode('utf-8')
+            if mensaje_cifrado:
+                mensaje = descifrar_mensaje(mensaje_cifrado)
+                print("\n" + mensaje)
+        except Exception as e:
+            print(f"Error al recibir mensaje: {e}")
+            break
