@@ -1,6 +1,11 @@
 from datetime import datetime
 import time
 
+class Usuario:
+    def __init__(self, nombre, ip):
+        self.nombre = nombre
+        self.ip = ip
+
 class Mensaje:
     def __init__(self, remitente, contenido):
         self.remitente = remitente
@@ -12,8 +17,9 @@ class Mensaje:
         return f"[{tiempo_formateado}] {self.remitente}: {self.contenido}"
 
 class Conversacion:
-    def __init__(self):
+    def __init__(self, localUser):
         self.mensajes = []
+        self.usuario = localUser
 
     def agregar_mensaje(self, remitente, contenido):
         mensaje = Mensaje(remitente, contenido)
@@ -32,6 +38,10 @@ class Conversacion:
             time.sleep(0.5)  # Pausa entre mensajes
 
 def main():
+
+    #gregar forma d easignar ip y nombre de usuario
+    usuario_local = Usuario("Usuario1", "127.0.0.1")
+
     chat = Conversacion()
     
     chat.agregar_mensaje("Usuario1", "Hola, ¿cómo estás?")
