@@ -1,7 +1,8 @@
 import socket
 import threading
+import time
+from comandos import procesar_comando
 from conversacion import Conversacion
-from comandos import procesar_entrada
 
 def cifrar_mensaje(mensaje):
     return mensaje[::-1]
@@ -40,7 +41,8 @@ def iniciar_cliente(usuario_local):
     while True:
         entrada = input("> ")
         try:
-            procesar_entrada(entrada, chat)
+            comando = procesar_comando(entrada, chat)
+            comando.ejecutar()
             if not entrada.startswith("/"):
                 mensaje_cifrado = cifrar_mensaje(entrada)
                 cliente_socket.send(mensaje_cifrado.encode('utf-8'))
