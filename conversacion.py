@@ -2,16 +2,13 @@ from mensaje import Mensaje
 import time
 
 class Conversacion:
-    def __init__(self, usuario_local):
-        self.usuarios = [usuario_local]
+    def __init__(self, remitente, destinatario):
+        self.remitente = remitente
+        self.destinatario = destinatario
         self.mensajes = []
-        self.usuario_local = usuario_local
 
-    def agregar_usuario(self, usuario):
-        self.usuarios.append(usuario)
-
-    def agregar_mensaje(self, remitente, contenido):
-        mensaje = Mensaje(remitente, contenido)
+    def agregar_mensaje(self, remitente, contenido, destinatario):
+        mensaje = Mensaje(remitente, contenido, destinatario)
         self.mensajes.append(mensaje)
 
     def mostrar_conversacion(self):
