@@ -1,3 +1,4 @@
+import asyncio
 from conexiones import ConexionCliente
 from conversacion import Conversacion
 from comandos import procesar_comando
@@ -7,18 +8,22 @@ class InteraccionChat:
         self.conexion = ConexionCliente(host, puerto)
         self.chat = Conversacion(usuario_local)
 
-    def iniciar(self):
-        if not self.conexion.conectar():
+    async def iniciar(self):
+        if not await self.conexion.conectar():
             return
 
-        self.conexion.iniciar_hilo_recepcion(self.chat)
-        self.ciclo_principal()
+        asyncio.create_task(self.conexion.recibir_mensajes(self.chat))
+        await self.ciclo_principal()
 
-    def ciclo_principal(self):
+    async def ciclo_principal(self):
         while True:
-            entrada = input("> ")
+            entrada = await self.leer_entrada_usuario()
             if entrada.startswith("/"):
                 comando = procesar_comando(entrada, self.chat)
                 comando.ejecutar()
             else:
-                self.conexion.enviar_mensaje(entrada)
+                await self.conexion.enviar_mensaje(entrada)
+
+    async def leer_entrada_usuario(self):
+        return await asyncio.get_event_loop().run_in_executor(None, input, "> ")
+
