@@ -11,13 +11,4 @@ def iniciar_cliente(usuario_local):
     if not conexion.conectar():
         return
 
-    chat = Conversacion(usuario_local)
-    conexion.iniciar_hilo_recepcion(chat)
-
-    while True:
-        entrada = input("> ")
-        if entrada.startswith("/"):
-            comando = procesar_comando(entrada, chat)
-            comando.ejecutar()
-        else:
-            conexion.enviar_mensaje(entrada)
+    
